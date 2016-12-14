@@ -1,12 +1,15 @@
 #include <fstream>
 #include <iostream>
-#include <iomanip>
+#include <algorithm>
 
 
 #include "bmp_io.h"
 
 
 using namespace lab1::bmp;
+
+
+void to_redscale(pixel&);
 
 
 int main(int argc, char **argv) {
@@ -33,6 +36,13 @@ int main(int argc, char **argv) {
         BMPImage img(infile);
         infile.close();
 
+        for(int row = 0; row < img.height(); ++row) {
+            for(int col = 0; col < img.width(); ++col) {
+                to_redscale(img.at(row, col));
+            }
+        }
+
+
         std::ofstream outfile;
         outfile.open(outfname, std::ios::binary);
         if (!outfile.is_open()) {
@@ -47,3 +57,11 @@ int main(int argc, char **argv) {
     }
     return 0;
 }
+
+void to_redscale(pixel& px) {
+    int tmp = 2*(px.red+px.green+px.blue) / 3;
+    px.red = BYTE(std::min(tmp, 255));
+    px.green = BYTE(std::max(tmp-255, 0));
+    px.blue = BYTE(std::max(tmp-255, 0));
+}
+

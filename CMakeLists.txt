@@ -5,14 +5,15 @@ set(CMAKE_CXX_STANDARD 11)
 
 
 set(SRC_LIST
+        src/bmp_io.h
         src/bmp_io.cpp
-        src/bmp_io.h)
+)
 set(TESTS_LIST
         tests/TestBMPStructs.h)
 
 set(ALL_CODE ${TESTS_LIST} ${SRC_LIST})
 
-add_executable(os_lab1 src/main.cpp ${SOURCE_FILES})
+add_executable(os_lab1 src/main.cpp ${SRC_LIST})
 
 find_package(CxxTest)
 set(CXXTEST_TESTGEN_INTERPRETER bash)
